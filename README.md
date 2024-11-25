@@ -1,67 +1,103 @@
-# Project Name
-> Short blurb about what your project does.
+# Sign in with Klarna using Laravel Socialte Provider
 
-[![Build Status][ci-image]][ci-url]
-[![License][license-image]][license-url]
-[![Developed at Klarna][klarna-image]][klarna-url]
+## Introduction
 
+This is an example Laravel application that demonstrates the usage of [Sign in with Klarna Laravel Socialite Provider](https://socialiteproviders.com/klarna/).
 
-One to two paragraph statement about your project and what it does.
+## Running the application
 
-## First steps
+1. Create an `.env` file by copying the `.env.example` file.
+2. Replace KLARNA credentials in the `.env` file.
 
-<details>
- <summary>Installation (for Admins)</summary>
-  
-  Currently, new repositories can be created only by a Klarna Open Source community lead. Please reach out to us if you need assistance.
-  
-  1. Create a new repository by clicking ‘Use this template’ button.
-  
-  2. Make sure your newly created repository is private.
-  
-  3. Enable Dependabot alerts in your candidate repo settings under Security & analysis. You need to enable ‘Allow GitHub to perform read-only analysis of this repository’ first.
-</details>
-
-1. Update `README.md` and `CHANGELOG.md`.
-
-2. Optionally, clone [the default contributing guide](https://github.com/klarna-incubator/.github/blob/main/CONTRIBUTING.md) into `.github/CONTRIBUTING.md`.
-
-3. Do *not* edit `LICENSE`.
-
-## Usage example
-
-A few motivating and useful examples of how your project can be used. Spice this up with code blocks and potentially more screenshots.
-
-_For more examples and usage, please refer to the [Docs](TODO)._
-
-## Development setup
-
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-npm test
+```
+KLARNA_CLIENT_ID=""
+KLARNA_CLIENT_SECRET=""
+KLARNA_REDIRECT_URI=""
 ```
 
-## How to contribute
+You can get the client ID and client secret from merchant portal (generate a new API key and use it as a secret).
 
-See our guide on [contributing](.github/CONTRIBUTING.md).
+The redirect URI should be the URL of the application where the user will be redirected after the authentication. It should be a backend route that will handle the authentication response. The response from Klarna will contain the user details and the refresh token using which you can create a user account in your database.
 
-## Release History
+> 📕 Note: Make sure you register your redirect URI as a valid redirect URI in the merchant portal. Ask your Klarna contact to do this for you.
 
-See our [changelog](CHANGELOG.md).
+3. Install the dependencies using composer.
 
-## License
+```bash
+composer install
+```
 
-Copyright © 2022 Klarna Bank AB
+4. Run the application.
 
-For license details, see the [LICENSE](LICENSE) file in the root of this project.
+```bash
+php artisan serve
+```
+
+5. Visit the application in the browser.
+
+```bash
+http://localhost:8000/login
+```
+
+6. Click on the "Sign in with Klarna" button to start the authentication process.
+
+## Understanding the code
+
+> Follow the official installation documentation of [Socialite Providers](https://socialiteproviders.com/usage/).
+
+1. Add the Klarna provider configuration in the `config/services.php` file.
+
+```php
+'klarna' => [
+  'client_id' => env('KLARNA_CLIENT_ID'),
+  'client_secret' => env('KLARNA_CLIENT_SECRET'),
+  'redirect' => env('KLARNA_REDIRECT_URI'),
+]
+```
+
+2. Add Socialite Manager in the bootstrap providers
+
+```php
+<?php
+
+return [
+  // other existing providers
+  \SocialiteProviders\Manager\ServiceProvider::class
+];
+```
+
+3. Setup controller and redirect the user to Klarna for authentication.
+
+> Follow the code in `redirectToKlarna` function in [KlarnaLoginController.php](/app/Http/Controllers/KlarnaLoginController.php) file.
+
+Add the required scopes and redirect the user
+
+```php
+public function redirectToProvider() {
+  return Socialite::driver('klarna')->scopes([
+    'openid', 'profile:name', 'profile:email', 'profile:phone'
+  ])->redirect();
+}
+```
+
+> 📕 Note: Do not forget to always add `openid` scope.
+
+4. Handle the callback
+
+> Follow the code in `handleCallback` function in [KlarnaLoginController.php](/app/Http/Controllers/KlarnaLoginController.php) file.
+
+Fetch user details received from Klarna and create a user account in your database.
+
+```php
+$user = Socialite::driver('klarna')->user();
+```
+
+The fields on the user objects are as documented in [Socialiate Klarna Provider documentation](https://socialiteproviders.com/klarna/#usage).
+
+Get the refresh token from the user object.
+
+```php
+$refreshToken = $user->refreshToken;
+```
 
 
-<!-- Markdown link & img dfn's -->
-[ci-image]: https://img.shields.io/badge/build-passing-brightgreen?style=flat-square
-[ci-url]: https://github.com/klarna-incubator/TODO
-[license-image]: https://img.shields.io/badge/license-Apache%202-blue?style=flat-square
-[license-url]: http://www.apache.org/licenses/LICENSE-2.0
-[klarna-image]: https://img.shields.io/badge/%20-Developed%20at%20Klarna-black?style=flat-square&labelColor=ffb3c7&logo=klarna&logoColor=black
-[klarna-url]: https://klarna.github.io
