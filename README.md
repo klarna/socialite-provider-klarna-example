@@ -1,4 +1,4 @@
-# Sign in with Klarna using Laravel Socialte Provider
+# Sign in with Klarna using Laravel Socialite Provider
 
 ## Introduction
 
