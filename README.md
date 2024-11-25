@@ -100,4 +100,10 @@ Get the refresh token from the user object.
 $refreshToken = $user->refreshToken;
 ```
 
+## Button styling
+
+If you start the application, you will see the different buttons that you can use and copy the CSS from the code section.
+
+Always follow the latest [Button Styling Guide](https://developers.klarna.com/en/us/checkout/button-styling-guide) documentation.
+
 
