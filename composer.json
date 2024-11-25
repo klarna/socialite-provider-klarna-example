@@ -7,7 +7,7 @@
     "repositories": [
       {
         "type": "vcs",
-        "url": "https://github.com/taher435/KlarnaSocialiteProvider"
+        "url": "https://github.com/SocialiteProviders/Klarna"
       }
     ],
     "require": {
@@ -15,7 +15,7 @@
         "laravel/framework": "^11.9",
         "laravel/socialite": "*",
         "laravel/tinker": "^2.9",
-        "socialiteproviders/klarna": "dev-main",
+        "socialiteproviders/klarna": "dev-master",
         "socialiteproviders/manager": "^4.7"
     },
     "require-dev": {
