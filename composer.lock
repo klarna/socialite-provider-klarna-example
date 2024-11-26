@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d5e8ce8662f724e3244f6a5b59edb5e",
+    "content-hash": "c16e8caec9d7908748ca7bd9b9c03463",
     "packages": [
         {
             "name": "brick/math",
@@ -3558,7 +3558,7 @@
         },
         {
             "name": "socialiteproviders/klarna",
-            "version": "dev-master",
+            "version": "4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SocialiteProviders/Klarna.git",
@@ -3575,13 +3575,13 @@
                 "php": "^8.0",
                 "socialiteproviders/manager": "^4.4"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "SocialiteProviders\\Klarna\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3600,9 +3600,9 @@
                 "socialite"
             ],
             "support": {
+                "docs": "https://socialiteproviders.com/klarna",
                 "issues": "https://github.com/socialiteproviders/providers/issues",
-                "source": "https://github.com/socialiteproviders/providers",
-                "docs": "https://socialiteproviders.com/klarna"
+                "source": "https://github.com/socialiteproviders/providers"
             },
             "time": "2024-11-23T11:23:34+00:00"
         },
@@ -8397,9 +8397,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "socialiteproviders/klarna": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
